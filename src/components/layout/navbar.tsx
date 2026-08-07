@@ -1,32 +1,41 @@
 "use client";
 
-import Link from "next/link";
 import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Sidebar } from "./sidebar";
+import { MobileSidebar } from "./mobile-sidebar";
 
-
-export function Navbar() {
-    return(
-        <div className="border-b bg-zinc-100 h-16">
-            <div className="">
-                <Sheet>
-                    <SheetTrigger asChild>
-                        <Button variant="ghost" className="ml-2 md:hidden " size="icon">
-                            <Menu className="h-6 w-6" />
-                            <span className="sr-only">Toggle Menu</span>
-                        </Button>
-                    </SheetTrigger>
-                    <SheetContent side="left" className=" p-0">
-                        <div className="font-bold text-lg p-6 border-b text-primary">
-              
-            </div>
-                        <Sidebar />
-                    </SheetContent>
-
-                </Sheet>
-            </div>
+export function Navbar({
+  open,
+  onToggleSidebar,
+}: {
+  open: boolean;
+  onToggleSidebar: () => void;
+}) {
+  return (
+    <div className="border-b bg-zinc-100 h-16 flex items-center justify-between px-4">
+      <div className="flex items-center gap-3">
+        <div className="md:hidden">
+          <MobileSidebar />
         </div>
-    )
+
+        <Button
+          variant="ghost"
+          size="icon"
+          className="hidden md:inline-flex"
+          onClick={onToggleSidebar}
+        >
+          <Menu className="h-5 w-5" />
+          <span className="sr-only">Toggle sidebar</span>
+        </Button>
+
+        <span className="font-bold text-lg">TaskFlow</span>
+      </div>
+
+      <div className="flex items-center gap-2">
+        <div className="h-8 w-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-medium text-sm">
+          U
+        </div>
+      </div>
+    </div>
+  );
 }
