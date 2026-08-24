@@ -69,13 +69,13 @@ export default function LoginPage(){
                 )}
                 <div className="flex flex-col gap-2">
                     <Label htmlFor="email">Email</Label>
-                    <Input type="email" name="email" placeholder="Enter your email" onChange={handleChange}
+                    <Input id="email" type="email" name="email" placeholder="Enter your email" onChange={handleChange}
                      value={formData.email} />
 
                 </div>
                 <div className="flex flex-col gap-2 mt-4">
                     <Label htmlFor="password">Password</Label>
-                    <Input type="password" name="password" placeholder="••••••••" onChange={handleChange}
+                    <Input id="password" type="password" name="password" placeholder="••••••••" onChange={handleChange}
                      value={formData.password} />
 
                 </div>

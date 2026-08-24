@@ -16,13 +16,14 @@ export async function registerUser( user: RegisterDto){
 };
 
 export async function login(user: LoginDto){
-    const rest= await fetchClient<AuthResponse>("/auth/login",{
+    const res= await fetchClient<AuthResponse>("/auth/login",{
         method: "POST",
         body: JSON.stringify(user),
     });
-    if (rest.token) {
-        localStorage.setItem("token", rest.token);
-    }
+    if (res.token) {
+        localStorage.setItem("token", res.token);
+    };
+    return res;
 }
 
 
