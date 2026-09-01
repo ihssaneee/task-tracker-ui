@@ -3,14 +3,24 @@
 import {createTask, getTasks, deleteTask, getTaskById, updateTask} from "@/lib/api/taskApi";
 import {useQuery, useMutation, useQueryClient} from "@tanstack/react-query";
 import {useEffect, useState} from "react";
+import { columns } from "./components/columns";
+import { DataTable } from "./components/data-table"
+
 import {Task} from "@/types/task";
 import {Loader2,AlertCircle} from "lucide-react";
+import CreateTaskModal from "@/components/tasks/CreateTaskModal";
+import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
 export default function TasksPage() {
 
     const {data:tasks, isLoading, isError} = useQuery({
         queryKey: ["tasks"],
         queryFn: getTasks
     })
+
+
+    const [openModal, setOpenModal] = useState(false);
+   
 
 
     if (isLoading){
@@ -25,43 +35,20 @@ export default function TasksPage() {
 
  return (
     <div className="p-4 space-y-4">
-      <h1 className="text-2xl font-bold">Tasks</h1>
+     <div className="flex justify-between items-center">
+       <h1 className="text-2xl font-bold">Tasks</h1>
 
-      <div className="overflow-x-auto">
-        <table className="w-full border-collapse border border-gray-300">
-          <thead>
-            <tr className="bg-gray-100">
-              <th className="border border-gray-300 p-2 text-left">Title</th>
-              <th className="border border-gray-300 p-2 text-left">Description</th>
-              <th className="border border-gray-300 p-2 text-left">Priority</th>
-              <th className="border border-gray-300 p-2 text-left">Project</th>
-              <th className="border border-gray-300 p-2 text-left">Status</th>
-              <th className="border border-gray-300 p-2 text-center">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {tasks && tasks.length > 0 ? (
-              tasks.map((task: Task) => (
-                <tr key={task.id} className="hover:bg-gray-50">
-                  <td className="border border-gray-300 p-2 font-medium">{task.title}</td>
-                  <td className="border border-gray-300 p-2">{task.description || "-"}</td>
-                  <td className="border border-gray-300 p-2">{task.priority}</td>
-                  <td className="border border-gray-300 p-2">{task.projectName || "-"}</td>
-                  <td className="border border-gray-300 p-2">{task.status}</td>
-                  <td className="border border-gray-300 p-2 text-center">
-                    {/* Actions will go here */}
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan={6} className="border border-gray-300 p-4 text-center text-gray-500">
-                  No tasks found.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+      <Button variant="default" className="bg-blue-900 flex items-center gap-1.5 p-2 cursor-pointer hover:bg-blue-800" onClick={() => setOpenModal(true)} >
+        <Plus className=" h-4 w-4" />
+        Create Task
+      </Button>
+     </div>
+
+
+        <div className="container mx-auto py-10">
+            <DataTable columns={columns} data={tasks || []} />
+
+        <CreateTaskModal isOpen={openModal} onClose={() => setOpenModal(false)} title="Create Task" />
       </div>
     </div>
   );
